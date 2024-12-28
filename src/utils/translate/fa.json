@@ -1,0 +1,22 @@
+{
+  "category": {
+    "Health": "پزشکی",
+    "Food": "غذا",
+    "Salary": "حقوق",
+    "Others": "دیگر",
+    "Loan": "وام",
+    "Bill": "قبض",
+    "Entertainment": "تفریح",
+    "Travel": "سفر",
+    "Rent": "اجاره",
+    "Shopping": "فروشگاه",
+    "Income": "درآمد"
+  },
+  "wallet": {
+    "Wallet": "کیف 1"
+  },
+  "type": {
+    "Income": "درآمد",
+    "Expense": "هزینه"
+  }
+}

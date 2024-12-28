@@ -1,0 +1,23 @@
+{
+  "category": {
+    "health": "Health",
+    "food": "Food",
+    "salary": "Salary",
+    "others": "Others",
+    "loan": "Loan",
+    "bill": "Bill",
+    "entertainment": "Entertainment",
+    "travel": "Travel",
+    "rent": "Rent",
+    "shopping": "Shopping",
+    "income": "Income",
+    "expense": "Expense"
+  },
+  "Wallet": {
+    "wallet": "Wallet"
+  },
+  "type": {
+    "income": "Income",
+    "expense": "Expense"
+  }
+}
