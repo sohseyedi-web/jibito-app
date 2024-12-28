@@ -13,8 +13,8 @@ import { Icon } from '@iconify/vue'
       </button>
       <router-link to="/all">
         <button class="size-10 rounded-2xl bg-black flex items-center justify-center">
-        <Icon icon="solar:magnifer-outline" class="text-[#fff] size-6 cursor-pointer" />
-      </button>
+          <Icon icon="solar:magnifer-outline" class="text-[#fff] size-6 cursor-pointer" />
+        </button>
       </router-link>
     </div>
   </header>

@@ -76,19 +76,16 @@ watch(isOpen, (newValue) => {
 </template> -->
 
 <script lang="ts" setup>
-
+import type { SelectFieldTypes } from '../../types/fieldTypes'
+import { Icon } from '@iconify/vue/dist/iconify.js'
 import { inject, ref } from 'vue'
-import type { SelectFieldTypes } from '../../types/fieldTypes';
-import { useI18n } from 'vue-i18n';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { useI18n } from 'vue-i18n'
 
-const {name} = defineProps<SelectFieldTypes>()
+const { name } = defineProps<SelectFieldTypes>()
 const model = defineModel<string>()
-const {t} = useI18n()
+const { t } = useI18n()
 const isTouched = ref(false)
 const isSubmitted = inject('isSubmitted', false)
-
-console.log(name,t('wallet.Wallet1'))
 </script>
 
 <template>
@@ -99,17 +96,17 @@ console.log(name,t('wallet.Wallet1'))
 
     <select
       v-model="model"
-      @change="isTouched = true"
       :class="!model ? 'text-gray-500' : 'text-white'"
       class="w-full pr-12 appearance-none outline-none bg-transparent h-[55px] rounded-[18px] border-2 border-[#9c9c9c] px-3"
+      @change="isTouched = true"
     >
       <option value="" class="bg-[#161616]" disabled selected>
-        {{ placeholder}}
+        {{ placeholder }}
       </option>
       <option
-        class="bg-[#161616] text-white cursor-pointer"
         v-for="(item, index) in options"
         :key="index"
+        class="bg-[#161616] text-white cursor-pointer"
         :value="item"
       >
         {{ t(`${name}.${item}`) }}

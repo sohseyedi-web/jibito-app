@@ -1,32 +1,31 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-import AmountForm from '../components/AmountForm.vue';
-import { useTransactionStore } from '../store/useStore';
-import { calculateBalance,calculateByType } from '../utils/calculateAmount';
-import HomeHeader from '../components/HomeHeader.vue';
-import AppTransactionItem from '../components/base/AppTransactionItem.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
-import { toPersianNumbersWithComma as TPNWC } from '../utils/toPersianNumbers';
+import { Icon } from '@iconify/vue/dist/iconify.js'
+import { computed } from 'vue'
+import AmountForm from '../components/AmountForm.vue'
+import AppTransactionItem from '../components/base/AppTransactionItem.vue'
+import HomeHeader from '../components/HomeHeader.vue'
+import { useTransactionStore } from '../store/useStore'
+import { calculateBalance, calculateByType } from '../utils/calculateAmount'
+import { toPersianNumbersWithComma as TPNWC } from '../utils/toPersianNumbers'
 
-const {getTransactions} = useTransactionStore()
+const { getTransactions } = useTransactionStore()
 
 const transactions = computed(() => getTransactions().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
 const balance = computed(() => calculateBalance(transactions.value))
-
-
 </script>
+
 <template>
-    <Transition
-        enter-from-class="opacity-50"
+  <Transition
+    enter-from-class="opacity-50"
     leave-to-class="opacity-50"
     enter-active-class="duration-200 ease-in"
     leave-active-class="duration-200 ease-out"
     mode="out-in"
-    >
-        <AmountForm v-if="balance === 0"/>
-        <main v-else>
-            <HomeHeader/>
-            <div class="h-[90svh] overflow-y-auto">
+  >
+    <AmountForm v-if="balance === 0" />
+    <main v-else>
+      <HomeHeader />
+      <div class="h-[90svh] overflow-y-auto">
         <div class="bg-black rounded-2xl px-4 py-5 text-white">
           <div class="flex items-center justify-between text-white">
             <h4>موجودی</h4>
@@ -62,6 +61,6 @@ const balance = computed(() => calculateBalance(transactions.value))
           </div>
         </router-link>
       </div>
-        </main>
-    </Transition>
+    </main>
+  </Transition>
 </template>

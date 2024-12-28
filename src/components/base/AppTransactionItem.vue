@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import type { TransactionType } from '../../types/storeTypes';
-import { toPersianNumbersWithComma as TPNWC } from '../../utils/toPersianNumbers';
+import type { TransactionType } from '../../types/storeTypes'
+import { useI18n } from 'vue-i18n'
+import { toPersianNumbersWithComma as TPNWC } from '../../utils/toPersianNumbers'
 import CategoryIcon from '../common/CategoryIcon.vue'
-import {useI18n} from 'vue-i18n'
 
 defineProps<{ transaction: TransactionType }>()
-const {t} = useI18n()
+const { t } = useI18n()
 
 function onConvertShort(date?: string) {
-  const validDate = date && !isNaN(new Date(date).getTime()) ? new Date(date) : new Date();
+  const validDate = date && !new Date(date).getTime() ? new Date(date) : new Date()
 
-  return validDate.toLocaleDateString('fa-IR', { day: 'numeric', month: 'short' });
+  return validDate.toLocaleDateString('fa-IR', { day: 'numeric', month: 'short' })
 }
-
-
 </script>
 
 <template>
