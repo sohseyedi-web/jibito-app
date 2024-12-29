@@ -40,7 +40,7 @@ async function onSubmit() {
   try {
     if (!isValid) {
       isSubmitted.value = true
-      showToast("error","خطا در ثبت تراکنش")
+      showToast('error', 'خطا در ثبت تراکنش')
       isLoading.value = 'FAILED'
     }
 
@@ -100,19 +100,18 @@ provide('isSubmitted', isSubmitted)
       name="category"
     />
     <AppInput
-      v-model="values.date"
-      :error="errors.date"
-      type="text"
-      placeholder="تاریخ : به صورت پیش فرض تاریخ امروز "
-      icon="solar:calendar-broken"
-    />
-
-    <AppInput
       v-model="values.amount"
       :error="errors.amount"
       type="text"
       placeholder="مبلغ"
       icon="solar:dollar-broken"
+    />
+    <AppInput
+      v-model="values.date"
+      :error="errors.date"
+      type="text"
+      placeholder="تاریخ : امروز "
+      icon="solar:calendar-broken"
     />
     <AppInput
       v-model="values.description"
