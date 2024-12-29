@@ -27,7 +27,7 @@ function onConvertShort(date?: string) {
     </div>
     <div class="flex flex-col items-center">
       <span class="text-xl font-semibold" :class="transaction.type === 'Income' ? 'text-green-600' : 'text-red-600'">
-        {{ transaction.type === 'Income' ? '+' : '-' }} {{ TPNWC(transaction.amount) }}
+        {{ transaction.type === 'Income' ? '+' : '-' }} {{ TPNWC(transaction.amount) }} ت
       </span>
       <span class="text-gray-500">{{ onConvertShort(transaction.date) }}</span>
     </div>
