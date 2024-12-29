@@ -47,7 +47,7 @@ const balance = computed(() => calculateBalance(transactions.value))
               <div class="rounded-2xl p-1.5 bg-[#161616]">
                 <Icon icon="solar:arrow-to-down-right-linear" class="text-red-600 size-6" />
               </div>
-              <span class="font-semibold text-xl text-red-600">{{ TPNWC(String(calculateByType(transactions, "Expense"))) }}</span>
+              <span class="font-semibold text-xl text-red-600">{{ TPNWC(String(calculateByType(transactions, "Expense"))) }} تومان</span>
             </div>
           </div>
         </div>
