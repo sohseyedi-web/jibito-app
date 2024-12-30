@@ -2,15 +2,15 @@
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { computed } from 'vue'
 import AmountForm from '../components/AmountForm.vue'
-import AppTransactionItem from '../components/base/AppTransactionItem.vue'
 import HomeHeader from '../components/HomeHeader.vue'
+import AppTransactionsCard from '../components/transactions/AppTransactionsCard.vue'
 import { useTransactionStore } from '../store/useStore'
 import { calculateBalance, calculateByType } from '../utils/calculateAmount'
 import { toPersianNumbersWithComma as TPNWC } from '../utils/toPersianNumbers'
 
 const { getTransactions } = useTransactionStore()
 
-const transactions = computed(() => getTransactions().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+const transactions = computed(() => getTransactions())
 const balance = computed(() => calculateBalance(transactions.value))
 </script>
 
@@ -54,7 +54,7 @@ const balance = computed(() => calculateBalance(transactions.value))
         <p class="my-4 text-white font-semibold text-lg">
           تراکنش های اخیر
         </p>
-        <AppTransactionItem v-for="transaction in transactions" :key="transaction.id" :transaction="transaction" />
+        <AppTransactionsCard />
         <router-link to="/transaction">
           <div class="absolute bottom-4 size-9 flex items-center justify-center rounded-2xl z-[1] right-4 bg-[#a3e632] cursor-pointer">
             <Icon icon="mdi:add" class="size-7 text-black" />
