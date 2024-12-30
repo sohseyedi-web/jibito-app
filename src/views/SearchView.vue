@@ -1,25 +1,37 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import BackButton from '../components/common/BackButton.vue'
 import AppTransactionsCard from '../components/transactions/AppTransactionsCard.vue'
 import { useTransactionStore } from '../store/useStore'
 
 const { getTransactions } = useTransactionStore()
 const searchValue = ref<string>('')
+const { tm } = useI18n()
 
 const transactions = computed(() => {
-  const allTransactions = getTransactions().sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime(),
-  )
+  const allTransactions = getTransactions()
+  const query = searchValue.value.toLowerCase()
+
+  const translateSearchTerm = (searchQuery: string): string => {
+    const enWords = tm('category')
+    return Object.entries(enWords).reduce((acc, [key, value]) => {
+      if (value.toLowerCase().includes(searchQuery)) {
+        return key
+      }
+      return acc
+    }, searchQuery)
+  }
+
+  const englishSearchTerm = translateSearchTerm(query)
 
   return allTransactions.filter((transaction) => {
-    const query = searchValue.value.toLowerCase()
+    const amount = transaction.amount.toString()
+    const category = transaction.category.toLowerCase()
 
-    return (
-      transaction.amount.toString().includes(query)
-      || transaction.category.toLowerCase().includes(query)
-    )
+    return amount.includes(query)
+      || category.includes(englishSearchTerm.toLowerCase())
   })
 })
 </script>
