@@ -48,7 +48,7 @@ const categoryStyles: Record<string, CategoryStyleTypes> = {
   },
   rent: {
     icon: 'mdi:bed-king-outline',
-    bgColor: 'bg-[#a3e632]',
+    bgColor: 'bg-[#8D0B41]',
   },
 }
 
