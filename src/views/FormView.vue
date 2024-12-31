@@ -9,6 +9,8 @@ import AppSelect from '../components/base/AppSelect.vue'
 import BackButton from '../components/common/BackButton.vue'
 import useValid, { transactionSchema } from '../composable/useValid'
 import { ENUM_CATEGORY_VALUE, ENUM_TYPE_VALUE, ENUM_WALLET_VALUE } from '../constant/optionsValue'
+import api from '../server/api'
+import { POST_TRANSACTIONS_URL } from '../server/urls'
 import { useTransactionStore } from '../store/useStore'
 import { calculateBalance } from '../utils/calculateAmount'
 import { showToast } from '../utils/showToast'
@@ -40,7 +42,7 @@ async function onSubmit() {
   try {
     if (!isValid) {
       isSubmitted.value = true
-      showToast('error', 'خطا در ثبت تراکنش')
+      showToast('error', 'خطا در تکمیل فرم')
       isLoading.value = 'FAILED'
     }
 
@@ -52,6 +54,7 @@ async function onSubmit() {
     }
     if (isValid) {
       addTransaction(values.value)
+      await api.post(POST_TRANSACTIONS_URL, values.value)
       showToast('success', 'تراکنش با موفقیت ثبت شد')
       isLoading.value = 'RESOLVED'
       router.push('/')
@@ -59,6 +62,7 @@ async function onSubmit() {
   }
   catch {
     isLoading.value = 'FAILED'
+    showToast('error', 'خطا در ثبت تراکنش')
   }
   finally {
     isLoading.value = 'INITIAL'
