@@ -2,58 +2,60 @@ import type {
   NavigationGuardNext,
   RouteLocationNormalized,
   RouteRecordRaw,
-} from "vue-router";
-import { createRouter, createWebHistory } from "vue-router";
-import { useTransactionStore } from "../store/useStore";
-import FormView from "../views/FormView.vue";
-import HomeView from "../views/HomeView.vue";
-import SearchView from "../views/SearchView.vue";
+} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { useTransactionStore } from '../store/useStore'
+import FormView from '../views/FormView.vue'
+import HomeView from '../views/HomeView.vue'
+import SearchView from '../views/SearchView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: HomeView,
   },
   {
-    path: "/transaction",
-    name: "FormTransaction",
+    path: '/transaction',
+    name: 'FormTransaction',
     component: FormView,
     beforeEnter: (
       _to: RouteLocationNormalized,
       _from: RouteLocationNormalized,
-      next: NavigationGuardNext
+      next: NavigationGuardNext,
     ) => {
-      const { transactions } = useTransactionStore();
+      const { transactions } = useTransactionStore()
 
       if (transactions && transactions.length > 0) {
-        next();
-      } else {
-        next("/");
+        next()
+      }
+      else {
+        next('/')
       }
     },
   },
   {
-    path: "/all",
-    name: "SearchTransactions",
+    path: '/all',
+    name: 'SearchTransactions',
     component: SearchView,
     beforeEnter: (
       _to: RouteLocationNormalized,
       _from: RouteLocationNormalized,
-      next: NavigationGuardNext
+      next: NavigationGuardNext,
     ) => {
-      const { transactions } = useTransactionStore();
+      const { transactions } = useTransactionStore()
 
       if (transactions && transactions.length > 0) {
-        next();
-      } else {
-        next("/");
+        next()
+      }
+      else {
+        next('/')
       }
     },
   },
-];
+]
 
 export const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
