@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SelectFieldTypes } from '../../types/fieldTypes'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import { computed, inject, ref } from 'vue'
+import { inject, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { name, error } = defineProps<SelectFieldTypes>()
@@ -9,18 +9,6 @@ const model = defineModel<string>()
 const { t } = useI18n()
 const isTouched = ref(false)
 const isSubmitted = inject('isSubmitted', false)
-
-const borderClass = computed(() =>
-  error && (isTouched.value || isSubmitted)
-    ? 'border-red-600'
-    : 'border-[#9c9c9c]',
-)
-
-const iconClass = computed(() =>
-  error && (isTouched.value || isSubmitted)
-    ? 'text-red-600'
-    : 'text-white',
-)
 </script>
 
 <template>
@@ -30,14 +18,12 @@ const iconClass = computed(() =>
         :icon="icon"
         width="24"
         height="24"
-        class="transition-all duration-300 ease-out"
-        :class="iconClass"
       />
     </div>
 
     <select
       v-model="model"
-      :class="[!model ? 'text-gray-500' : 'text-white', borderClass]"
+      :class="[!model ? 'text-gray-500' : 'text-white']"
       class="w-full pr-12 appearance-none outline-none bg-transparent h-[55px] transition-all duration-300 ease-out rounded-[18px] border-2 px-3"
       @change="isTouched = true"
     >
