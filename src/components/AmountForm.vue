@@ -12,7 +12,7 @@ const { addTransaction, getTransactions } = useTransactionStore()
 const isLoading = ref<LoadingMode>('INITIAL')
 const isSubmitted = shallowRef<boolean>(false)
 
-const transactions = computed(() => getTransactions().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+const transactions = computed(() => getTransactions())
 
 const { errors, validateForm, values } = useValid({ amount: '' }, amountSchema)
 
