@@ -62,6 +62,7 @@ provide('isSubmitted', isSubmitted)
       type="text"
       placeholder="مبلغ"
       icon="solar:dollar-broken"
+      name="amount"
     />
     <AppButton title="ثبت مبلغ" type="submit" :loading="isLoading" class="bg-[#a3e632]" />
     <router-link v-if="transactions.length" to="/all" class="w-full">

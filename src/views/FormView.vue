@@ -105,6 +105,7 @@ provide('isSubmitted', isSubmitted)
       type="text"
       placeholder="مبلغ"
       icon="solar:dollar-broken"
+      name="amount"
     />
     <AppInput
       v-model="values.date"
@@ -112,6 +113,7 @@ provide('isSubmitted', isSubmitted)
       type="text"
       placeholder="تاریخ : امروز "
       icon="solar:calendar-broken"
+      name="date"
     />
     <AppInput
       v-model="values.description"
@@ -119,6 +121,7 @@ provide('isSubmitted', isSubmitted)
       type="text"
       placeholder="توضیحات"
       icon="solar:document-text-linear"
+      name="description"
     />
     <AppButton title="ثبت اطلاعات" type="submit" :loading="isLoading" class="bg-[#a3e632]" />
   </AppForm>
