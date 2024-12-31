@@ -11,4 +11,5 @@ export interface TextFieldTypes {
   type: string
   placeholder: string
   error: string
+  name: string
 }
