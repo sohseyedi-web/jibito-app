@@ -25,8 +25,8 @@ const balance = computed(() => calculateBalance(transactions.value))
     <AmountForm v-if="balance === 0" />
     <main v-else>
       <HomeHeader />
-      <div class="h-[90svh] overflow-y-auto">
-        <div class="bg-black rounded-2xl px-4 py-5 text-white">
+      <div class="h-[80svh] overflow-y-auto">
+        <div class="bg-black rounded-2xl p-4 text-white">
           <div class="flex items-center justify-between text-white">
             <h4>موجودی</h4>
             <span>
@@ -56,7 +56,7 @@ const balance = computed(() => calculateBalance(transactions.value))
         </p>
         <AppTransactionsCard />
         <router-link to="/transaction">
-          <div class="absolute bottom-4 size-9 flex items-center justify-center rounded-2xl z-[1] right-4 bg-[#a3e632] cursor-pointer">
+          <div class="absolute bottom-5 size-9 flex items-center justify-center rounded-2xl z-[1] right-4 bg-[#a3e632] cursor-pointer">
             <Icon icon="mdi:add" class="size-7 text-black" />
           </div>
         </router-link>
