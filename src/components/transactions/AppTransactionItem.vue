@@ -3,15 +3,17 @@ import type { TransactionType } from '../../types/storeTypes'
 import { Icon } from '@iconify/vue'
 import { shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useTransactionStore } from '../../store/useStore'
+import api from '../../server/api'
+import { DELETE_TRANSACTIONS_URL } from '../../server/urls'
 import { showToast } from '../../utils/showToast'
 import { toPersianNumbersWithComma as TPNWC } from '../../utils/toPersianNumbers'
 import CategoryIcon from '../common/CategoryIcon.vue'
 
-defineProps<{ transaction: TransactionType }>()
+const { transaction } = defineProps<{ transaction: TransactionType }>()
 const { t } = useI18n()
 const isOpen = shallowRef<boolean>(false)
-const { removeTransaction } = useTransactionStore()
+
+const onToggleOpen = () => isOpen.value = !isOpen.value
 
 function onConvertShort(date?: string) {
   const validDate = date && !new Date(date).getTime() ? new Date(date) : new Date()
@@ -19,17 +21,15 @@ function onConvertShort(date?: string) {
   return validDate.toLocaleDateString('fa-IR', { day: 'numeric', month: 'short' })
 }
 
-const onToggleOpen = () => isOpen.value = !isOpen.value
-
-function onRemoveTransaction(item: string) {
-  removeTransaction(item)
+async function onRemoveTransaction(item: string) {
+  await api.delete(DELETE_TRANSACTIONS_URL(item))
   showToast('success', 'تراکنش حذف شد')
 }
 </script>
 
 <template>
   <div
-    :key="transaction.id"
+    :key="transaction._id"
     class="bg-black p-2 rounded-2xl my-2 relative transition-all duration-300"
     :class="{ 'pl-20 ': isOpen }"
   >
@@ -52,7 +52,7 @@ function onRemoveTransaction(item: string) {
           class="text-xl font-semibold"
           :class="transaction.type === 'Income' ? 'text-green-600' : 'text-red-600'"
         >
-          {{ transaction.type === 'Income' ? '+' : '-' }} {{ TPNWC(transaction.amount) }} ت
+          {{ transaction.type === 'Income' ? '+' : '-' }} {{ TPNWC(String(transaction.amount)) }} ت
         </span>
         <span class="text-gray-500">{{ onConvertShort(transaction.date) }}</span>
       </div>
@@ -63,7 +63,7 @@ function onRemoveTransaction(item: string) {
     >
       <button
         class="transition bg-red-600 size-11 flex items-center justify-center rounded-2xl"
-        @click.stop="onRemoveTransaction(transaction.id)"
+        @click.stop="onRemoveTransaction(transaction._id)"
       >
         <Icon icon="solar:trash-bin-trash-broken" class="size-9 text-white cursor-pointer" />
       </button>
