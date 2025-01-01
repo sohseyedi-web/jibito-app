@@ -1,56 +1,57 @@
 <script lang="ts" setup>
+import type { LoadingMode } from '../types/commonTypes'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import { computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import AmountForm from '../components/AmountForm.vue'
+import CardBalance from '../components/CardBalance.vue'
 import HomeHeader from '../components/HomeHeader.vue'
 import AppTransactionsCard from '../components/transactions/AppTransactionsCard.vue'
-import { useTransactionStore } from '../store/useStore'
 import { calculateBalance, calculateByType } from '../utils/calculateAmount'
-import { toPersianNumbersWithComma as TPNWC } from '../utils/toPersianNumbers'
 
-const { getTransactions } = useTransactionStore()
+const balance = ref<number>(0)
+const incomeBalance = ref<number>(0)
+const expenseBalance = ref<number>(0)
+const isLoading = ref<LoadingMode>('INITIAL')
 
-const transactions = computed(() => getTransactions())
-const balance = computed(() => calculateBalance(transactions.value))
+onMounted(async () => {
+  isLoading.value = 'LOADING'
+  try {
+    balance.value = await calculateBalance()
+    incomeBalance.value = await calculateByType('Income')
+    expenseBalance.value = await calculateByType('Expense')
+    isLoading.value = 'RESOLVED'
+  }
+  catch {
+    isLoading.value = 'FAILED'
+  }
+  finally {
+    isLoading.value = 'INITIAL'
+  }
+})
 </script>
 
 <template>
   <Transition
-    enter-from-class="opacity-50"
     leave-to-class="opacity-50"
     enter-active-class="duration-200 ease-in"
     leave-active-class="duration-200 ease-out"
     mode="out-in"
   >
-    <AmountForm v-if="balance === 0" />
+    <div v-if="isLoading === 'LOADING'" class="flex items-center justify-center h-screen">
+      <h3 class="text-2xl animate-pulse font-semibold text-white">
+        لطفا صبر کنید...
+      </h3>
+    </div>
+    <AmountForm v-else-if="balance === 0 && isLoading === 'RESOLVED'" />
     <main v-else>
       <HomeHeader />
       <div class="h-[80svh] overflow-y-auto">
-        <div class="bg-black rounded-2xl p-4 text-white">
-          <div class="flex items-center justify-between text-white">
-            <h4>موجودی</h4>
-            <span>
-              <Icon icon="solar:menu-dots-bold" class="text-[#fff] size-6 cursor-pointer text-xl font-semibold" />
-            </span>
-          </div>
-          <div class="font-bold text-white text-4xl my-5">
-            {{ TPNWC(String(calculateBalance(transactions))) }} تومان
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-x-1">
-              <div class="rounded-2xl p-1.5 bg-[#161616]">
-                <Icon icon="solar:arrow-to-top-left-bold" class="text-green-600 size-6" />
-              </div>
-              <span class="font-semibold text-xl text-green-600">{{ TPNWC(String(calculateByType(transactions, "Income"))) }} تومان</span>
-            </div>
-            <div class="flex items-center gap-x-1">
-              <div class="rounded-2xl p-1.5 bg-[#161616]">
-                <Icon icon="solar:arrow-to-down-right-linear" class="text-red-600 size-6" />
-              </div>
-              <span class="font-semibold text-xl text-red-600">{{ TPNWC(String(calculateByType(transactions, "Expense"))) }} تومان</span>
-            </div>
-          </div>
-        </div>
+        <CardBalance
+          :loading="isLoading"
+          :balance="balance"
+          :expense="expenseBalance"
+          :income="incomeBalance"
+        />
         <p class="my-4 text-white font-semibold text-lg">
           تراکنش های اخیر
         </p>
