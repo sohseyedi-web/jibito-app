@@ -27,8 +27,8 @@ async function onSubmit() {
     }
 
     if (isValid) {
-      const {data} = await api.post(SIGNIN_URL, values.value)
-      localStorage.setItem("token",data.token)
+      const { data } = await api.post(SIGNIN_URL, values.value)
+      localStorage.setItem('token', data.token)
       showToast('success', 'خوش اومدی')
       isLoading.value = 'RESOLVED'
       router.push('/')
