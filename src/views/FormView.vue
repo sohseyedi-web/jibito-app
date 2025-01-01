@@ -11,7 +11,6 @@ import useValid, { transactionSchema } from '../composable/useValid'
 import { ENUM_CATEGORY_VALUE, ENUM_TYPE_VALUE, ENUM_WALLET_VALUE } from '../constant/optionsValue'
 import api from '../server/api'
 import { POST_TRANSACTIONS_URL } from '../server/urls'
-import { useTransactionStore } from '../store/useStore'
 import { calculateBalance } from '../utils/calculateAmount'
 import { showToast } from '../utils/showToast'
 
@@ -28,9 +27,7 @@ const isLoading = ref<LoadingMode>('INITIAL')
 const isSubmitted = shallowRef<boolean>(false)
 const router = useRouter()
 
-const { addTransaction, getTransactions } = useTransactionStore()
-const transactions = computed(() => getTransactions())
-const balance = computed(() => calculateBalance(transactions.value))
+const balance = computed(() => calculateBalance())
 
 async function onSubmit() {
   isLoading.value = 'LOADING'
@@ -53,7 +50,6 @@ async function onSubmit() {
       return
     }
     if (isValid) {
-      addTransaction(values.value)
       await api.post(POST_TRANSACTIONS_URL, values.value)
       showToast('success', 'تراکنش با موفقیت ثبت شد')
       isLoading.value = 'RESOLVED'
