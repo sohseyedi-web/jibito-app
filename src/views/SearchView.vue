@@ -1,17 +1,33 @@
 <script setup lang="ts">
+import type { TransactionType } from '../types/storeTypes'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BackButton from '../components/common/BackButton.vue'
 import AppTransactionsCard from '../components/transactions/AppTransactionsCard.vue'
-import { useTransactionStore } from '../store/useStore'
+import api from '../server/api'
+import { GET_TRANSACTIONS_URL } from '../server/urls'
 
-const { getTransactions } = useTransactionStore()
 const searchValue = ref<string>('')
+const transactionsList = ref<TransactionType[]>([])
 const { tm } = useI18n()
 
+async function fetchData() {
+  try {
+    const { data } = await api.get(GET_TRANSACTIONS_URL)
+    transactionsList.value = data
+  }
+  catch {
+
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
+
 const transactions = computed(() => {
-  const allTransactions = getTransactions()
+  const allTransactions = transactionsList.value
   const query = searchValue.value.toLowerCase()
 
   const translateSearchTerm = (searchQuery: string): string => {
