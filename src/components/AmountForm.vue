@@ -1,18 +1,27 @@
 <script setup lang="ts">
 import type { LoadingMode } from '../types/commonTypes'
-import { computed, provide, ref, shallowRef } from 'vue'
+import type { TransactionType } from '../types/storeTypes'
+import { onMounted, provide, ref, shallowRef } from 'vue'
 import useValid, { amountSchema } from '../composable/useValid'
-import { useTransactionStore } from '../store/useStore'
+import api from '../server/api'
+import { GET_TRANSACTIONS_URL, POST_TRANSACTIONS_URL } from '../server/urls'
 import { showToast } from '../utils/showToast'
 import AppButton from './base/AppButton.vue'
 import AppForm from './base/AppForm.vue'
 import AppInput from './base/AppInput.vue'
 
-const { addTransaction, getTransactions } = useTransactionStore()
 const isLoading = ref<LoadingMode>('INITIAL')
 const isSubmitted = shallowRef<boolean>(false)
+const transactions = ref<TransactionType[]>([])
 
-const transactions = computed(() => getTransactions())
+async function fetchData() {
+  try {
+    const { data } = await api.get(GET_TRANSACTIONS_URL)
+    transactions.value.push(data)
+  }
+  catch {
+  }
+}
 
 const { errors, validateForm, values } = useValid({ amount: '' }, amountSchema)
 
@@ -22,19 +31,21 @@ async function onSubmit() {
 
   if (!isValid) {
     isSubmitted.value = true
+    showToast('error', 'خطا در تکمیل فرم')
     isLoading.value = 'FAILED'
   }
 
   try {
     if (isValid) {
-      addTransaction({
+      const newItem = {
         amount: values.value.amount,
         category: 'Income',
         date: new Date().toString(),
         type: 'Income',
         wallet: 'کیف 1',
         description: 'موجودی اولیه',
-      })
+      }
+      await api.post(POST_TRANSACTIONS_URL, newItem)
       showToast('success', 'موجودی افزایش یافت')
       isLoading.value = 'RESOLVED'
     }
@@ -43,12 +54,17 @@ async function onSubmit() {
     // showerror
     // console.log(ex)
     isLoading.value = 'FAILED'
+    showToast('error', 'خطا در افزایش موجودی ')
   }
   finally {
     isLoading.value = 'INITIAL'
   }
 }
 provide('isSubmitted', isSubmitted)
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <template>

@@ -8,7 +8,9 @@ import {
 } from '../constant/optionsValue'
 
 // Constant Message
-const ERROR_MESSAGE = (field: string) => `${field} اجباری است`
+const MESSAGE_ERROR = (val: string) => `وارد کردن ' ${val} ' ضروری است`
+const PERSIAN_ERROR = `متن وارد شده "فارسی' نمی‌باشد.`
+const INVALID_ERROR = (val: string) => `'${val}' وارد شده کوتاه است.`
 
 function useValid<T extends ZodTypeAny>(initialValues: unknown, schema: T) {
   type ZodForm = z.infer<T>
@@ -66,14 +68,14 @@ function useValid<T extends ZodTypeAny>(initialValues: unknown, schema: T) {
 export default useValid
 
 export const transactionSchema = z.object({
-  type: z.enum(ENUM_TYPE_VALUE, { message: ERROR_MESSAGE('نوع') }),
-  wallet: z.enum(ENUM_WALLET_VALUE, { message: ERROR_MESSAGE('کیف پول') }),
+  type: z.enum(ENUM_TYPE_VALUE, { message: MESSAGE_ERROR('نوع') }),
+  wallet: z.enum(ENUM_WALLET_VALUE, { message: MESSAGE_ERROR('کیف پول') }),
   category: z.enum(ENUM_CATEGORY_VALUE, {
-    message: ERROR_MESSAGE('دسته بندی'),
+    message: MESSAGE_ERROR('دسته بندی'),
   }),
   amount: z
     .string()
-    .min(1, ERROR_MESSAGE('مبلغ'))
+    .min(1, MESSAGE_ERROR('مبلغ'))
     .regex(/^[1-9]\d*$/, 'مبلغ با صفر نباید شروع بشه')
     .refine(
       val => Number.parseInt(val, 10) > 0,
@@ -91,10 +93,36 @@ export const transactionSchema = z.object({
 export const amountSchema = z.object({
   amount: z
     .string()
-    .min(1, ERROR_MESSAGE('مبلغ'))
+    .min(1, MESSAGE_ERROR('مبلغ'))
     .regex(/^[1-9]\d*$/, 'مبلغ با صفر نباید شروع بشه')
     .refine(
       val => Number.parseInt(val, 10) > 0,
       'مبلغ باید بزرگتر از صفر باشه',
     ),
+})
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, MESSAGE_ERROR('ایمیل'))
+    .email('"ایمیل" وارد شده معتبر نمی‌باشد.'),
+  password: z
+    .string()
+    .min(1, MESSAGE_ERROR('رمز عبور'))
+    .min(4, INVALID_ERROR('رمز عبور')),
+})
+export const registerSchema = z.object({
+  username: z
+    .string()
+    .min(1, MESSAGE_ERROR('نام کاربری'))
+    .min(4, INVALID_ERROR('نام کاربری'))
+    .regex(/^[\u0600-\u06FF\s]+$/, { message: PERSIAN_ERROR }),
+  email: z
+    .string()
+    .min(1, MESSAGE_ERROR('ایمیل'))
+    .email('"ایمیل" وارد شده معتبر نمی‌باشد.'),
+  password: z
+    .string()
+    .min(1, MESSAGE_ERROR('رمز عبور'))
+    .min(4, INVALID_ERROR('رمز عبور')),
 })

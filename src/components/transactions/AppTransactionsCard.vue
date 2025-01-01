@@ -1,18 +1,44 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useTransactionStore } from '../../store/useStore'
+import type { LoadingMode } from '../../types/commonTypes'
+import type { TransactionType } from '../../types/storeTypes'
+import { onMounted, ref } from 'vue'
+import api from '../../server/api'
+import { GET_TRANSACTIONS_URL } from '../../server/urls'
 import AppTransactionItem from './AppTransactionItem.vue'
 
-const { getTransactions } = useTransactionStore()
+const transactions = ref<TransactionType[]>([])
+const isLoading = ref<LoadingMode>('INITIAL')
 
-const transactions = computed(() => getTransactions())
+async function fetchData() {
+  isLoading.value = 'LOADING'
+  try {
+    const { data } = await api.get(GET_TRANSACTIONS_URL)
+    transactions.value = data
+    isLoading.value = 'RESOLVED'
+  }
+  catch {
+    isLoading.value = 'FAILED'
+  }
+  finally {
+    isLoading.value = 'INITIAL'
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <template>
-  <TransitionGroup tag="div" class="space-y-4" name="fade">
+  <div v-if="isLoading === 'LOADING'" class="mt-3 flex items-center justify-center">
+    <h3 class="text-2xl animate-pulse font-semibold text-white">
+      لطفا صبر کنید...
+    </h3>
+  </div>
+  <TransitionGroup v-else tag="div" class="space-y-4" name="fade">
     <AppTransactionItem
       v-for="transaction in transactions"
-      :key="transaction.id"
+      :key="transaction._id"
       :transaction="transaction"
     />
   </TransitionGroup>

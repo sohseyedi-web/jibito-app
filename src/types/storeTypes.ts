@@ -1,5 +1,5 @@
 export interface TransactionType {
-  id: string
+  _id: string
   type: string
   wallet: string
   date: string
