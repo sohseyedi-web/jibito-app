@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import type { LoadingMode } from '../types/commonTypes'
-import { computed, provide, ref, shallowRef } from 'vue'
+import type { TransactionType } from '../types/storeTypes'
+import { onMounted, provide, ref, shallowRef } from 'vue'
 import useValid, { amountSchema } from '../composable/useValid'
 import api from '../server/api'
-import { POST_TRANSACTIONS_URL } from '../server/urls'
-import { useTransactionStore } from '../store/useStore'
+import { GET_TRANSACTIONS_URL, POST_TRANSACTIONS_URL } from '../server/urls'
 import { showToast } from '../utils/showToast'
 import AppButton from './base/AppButton.vue'
 import AppForm from './base/AppForm.vue'
 import AppInput from './base/AppInput.vue'
 
-const { getTransactions } = useTransactionStore()
 const isLoading = ref<LoadingMode>('INITIAL')
 const isSubmitted = shallowRef<boolean>(false)
+const transactions = ref<TransactionType[]>([])
 
-const transactions = computed(() => getTransactions())
+async function fetchData() {
+  try {
+    const { data } = await api.get(GET_TRANSACTIONS_URL)
+    transactions.value.push(data)
+  }
+  catch {
+  }
+}
 
 const { errors, validateForm, values } = useValid({ amount: '' }, amountSchema)
 
@@ -54,6 +61,10 @@ async function onSubmit() {
   }
 }
 provide('isSubmitted', isSubmitted)
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <template>
