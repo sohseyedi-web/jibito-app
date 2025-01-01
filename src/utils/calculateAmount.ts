@@ -1,9 +1,21 @@
 import type { TransactionType } from '../types/storeTypes'
+import api from '../server/api'
+import { GET_TRANSACTIONS_URL } from '../server/urls'
 
-export function calculateByType(
-  array: TransactionType[],
-  type: string,
-): number {
+async function getTransactions(): Promise<TransactionType[]> {
+  try {
+    const { data } = await api.get(GET_TRANSACTIONS_URL)
+    return data
+  }
+  catch (error) {
+    console.error('Error fetching transactions:', error)
+    return []
+  }
+}
+
+export async function calculateByType(type: string): Promise<number> {
+  const array = await getTransactions()
+
   const sum = array
     .filter(item => item.type === type)
     .reduce((sum, item) => sum + Number.parseFloat(item.amount), 0)
@@ -11,9 +23,9 @@ export function calculateByType(
   return sum
 }
 
-export function calculateBalance(array: TransactionType[]) {
-  const incomeVal = calculateByType(array, 'Income') || 0
-  const expenseVal = calculateByType(array, 'Expense') || 0
+export async function calculateBalance() {
+  const incomeVal = await calculateByType('Income')
+  const expenseVal = await calculateByType('Expense')
   const balance = incomeVal - expenseVal
   return balance
 }
