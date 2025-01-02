@@ -11,8 +11,8 @@ const isSubmitted = inject('isSubmitted', false)
 
 <template>
   <div class="w-full relative">
-    <div class="w-full flex items-center bg-transparent justify-center gap-3 h-[55px] rounded-[18px] border-2 border-[#9c9c9c] px-3">
-      <Icon :icon="icon" width="24" height="24" />
+    <div class="w-full flex items-center bg-transparent justify-center gap-3 h-[55px] rounded-[18px] border-2 border-[#2c2c2c] px-3">
+      <Icon :icon="icon" class="transition-all duration-300" width="24" height="24" :class="error && (isTouched || isSubmitted) ? 'text-red-600' : 'text-white'"/>
       <input
         v-model="model"
         :type

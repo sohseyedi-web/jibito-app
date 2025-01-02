@@ -14,17 +14,13 @@ const isSubmitted = inject('isSubmitted', false)
 <template>
   <div class="relative w-full">
     <div class="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-      <Icon
-        :icon="icon"
-        width="24"
-        height="24"
-      />
+        <Icon :icon="icon" class="transition-all duration-300" width="24" height="24" :class="error && (isTouched || isSubmitted) ? 'text-red-600' : 'text-white'"/>
     </div>
 
     <select
       v-model="model"
       :class="[!model ? 'text-gray-500' : 'text-white']"
-      class="w-full pr-12 appearance-none outline-none bg-transparent h-[55px] transition-all duration-300 ease-out rounded-[18px] border-2 px-3"
+      class="w-full pr-12 appearance-none outline-none bg-transparent h-[55px] transition-all duration-300 ease-out rounded-[18px] border-2 border-[#2c2c2c] px-3"
       @change="isTouched = true"
     >
       <option value="" class="bg-[#161616]" disabled selected>
