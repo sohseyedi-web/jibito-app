@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LoadingMode } from '../types/commonTypes'
+import { Icon } from '@iconify/vue'
 import { computed, provide, ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
 import AppButton from '../components/base/AppButton.vue'
@@ -25,6 +26,9 @@ const { values, errors, validateForm } = useValid({
 const isLoading = ref<LoadingMode>('INITIAL')
 const isSubmitted = shallowRef<boolean>(false)
 const router = useRouter()
+const isOpen = shallowRef<boolean>(false)
+
+const onOpen = () => isOpen.value = !isOpen.value
 
 const { addTransaction, getTransactions } = useTransactionStore()
 const transactions = computed(() => getTransactions())
@@ -87,7 +91,7 @@ provide('isSubmitted', isSubmitted)
       v-model="values.wallet"
       :error="errors.wallet"
       placeholder="کیف پول"
-      icon="solar:wallet-2-outline"
+      icon="solar:wallet-money-broken"
       :options="ENUM_WALLET_VALUE"
       name="wallet"
     />
@@ -107,22 +111,38 @@ provide('isSubmitted', isSubmitted)
       icon="solar:dollar-broken"
       name="amount"
     />
-    <AppInput
-      v-model="values.date"
-      :error="errors.date"
-      type="text"
-      placeholder="تاریخ : امروز "
-      icon="solar:calendar-broken"
-      name="date"
-    />
-    <AppInput
-      v-model="values.description"
-      :error="errors.description"
-      type="text"
-      placeholder="توضیحات"
-      icon="solar:document-text-linear"
-      name="description"
-    />
+    <div class="relative my-3 flex items-center justify-center w-full bg-[#2c2c2c] cursor-pointer" @click="onOpen">
+      <div class="w-full h-[1px]" />
+      <div class="absolute bg-[#161616] rounded-full p-2">
+        <Icon :class="isOpen ? 'rotate-180' : 'rotate-0'" icon="solar:round-double-alt-arrow-down-broken" width="32" height="32" class="text-gray-500 transition-all duration-300" />
+      </div>
+    </div>
+    <Transition
+      enter-from-class="opacity-50"
+      leave-to-class="opacity-50"
+      enter-active-class="duration-300 ease-in"
+      leave-active-class="duration-300 ease-out"
+      mode="out-in"
+    >
+      <div v-if="isOpen" class="w-full space-y-5">
+        <AppInput
+          v-model="values.date"
+          :error="errors.date"
+          type="text"
+          placeholder="تاریخ : امروز "
+          icon="solar:calendar-broken"
+          name="date"
+        />
+        <AppInput
+          v-model="values.description"
+          :error="errors.description"
+          type="text"
+          placeholder="توضیحات"
+          icon="solar:document-text-broken"
+          name="description"
+        />
+      </div>
+    </Transition>
     <AppButton title="ثبت اطلاعات" type="submit" :loading="isLoading" class="bg-[#a3e632]" />
   </AppForm>
 </template>
