@@ -25,7 +25,7 @@ const balance = computed(() => calculateBalance(transactions.value))
     <AmountForm v-if="balance === 0" />
     <main v-else>
       <HomeHeader />
-      <div class="h-[80svh] overflow-y-auto">
+      <div class="h-[90svh] overflow-y-auto pb-2">
         <div class="bg-black rounded-2xl p-4 text-white">
           <div class="flex items-center justify-between text-white">
             <h4>موجودی</h4>
@@ -64,3 +64,22 @@ const balance = computed(() => calculateBalance(transactions.value))
     </main>
   </Transition>
 </template>
+<style scoped>
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 18px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a3e632;
+  border-radius: 18px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8acc29;
+}
+</style>
