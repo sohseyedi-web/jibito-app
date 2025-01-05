@@ -64,6 +64,7 @@ const balance = computed(() => calculateBalance(transactions.value))
     </main>
   </Transition>
 </template>
+
 <style scoped>
 ::-webkit-scrollbar {
   width: 4px;
