@@ -64,7 +64,7 @@ provide('isSubmitted', isSubmitted)
       icon="solar:dollar-broken"
       name="amount"
     />
-    <AppButton title="ثبت مبلغ" type="submit" :loading="isLoading" class="bg-[#a3e632]" />
+    <AppButton title="ثبت مبلغ" type="submit" :loading="isLoading" class="bg-gradient-to-r from-[#ff3939] to-[#ff212d]" />
     <router-link v-if="transactions.length" to="/all" class="w-full">
       <AppButton title="تاریخچه حساب" type="button" class="text-white bg-[#4C585B]" />
     </router-link>

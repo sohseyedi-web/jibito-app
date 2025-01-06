@@ -9,7 +9,7 @@ import { Icon } from '@iconify/vue'
     </button>
     <div class="flex items-center gap-2">
       <button class="">
-        <Icon icon="solar:wallet-2-bold" class="text-[#a3e632] size-10 cursor-pointer" />
+        <Icon icon="solar:wallet-2-bold" class="text-[#ff3939] size-10 cursor-pointer" />
       </button>
       <router-link to="/all">
         <button class="size-10 rounded-2xl bg-black flex items-center justify-center">

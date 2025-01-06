@@ -56,7 +56,7 @@ const balance = computed(() => calculateBalance(transactions.value))
         </p>
         <AppTransactionsCard />
         <router-link to="/transaction">
-          <div class="absolute bottom-5 size-9 flex items-center justify-center rounded-2xl z-[1] right-4 bg-[#a3e632] cursor-pointer">
+          <div class="absolute bottom-5 size-9 flex items-center justify-center rounded-2xl z-[1] right-4 bg-gradient-to-r from-[#ff3939] to-[#ff212d] cursor-pointer">
             <Icon icon="mdi:add" class="size-7 text-black" />
           </div>
         </router-link>
