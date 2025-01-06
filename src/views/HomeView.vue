@@ -33,7 +33,7 @@ const balance = computed(() => calculateBalance(transactions.value))
               <Icon icon="solar:menu-dots-bold" class="text-[#fff] size-6 cursor-pointer text-xl font-semibold" />
             </span>
           </div>
-          <div class="font-bold text-white text-4xl my-5">
+          <div class="font-bold text-white lg:text-4xl text-2xl my-5">
             {{ TPNWC(String(calculateBalance(transactions))) }} تومان
           </div>
           <div class="flex items-center justify-between">
@@ -41,13 +41,13 @@ const balance = computed(() => calculateBalance(transactions.value))
               <div class="rounded-2xl p-1.5 bg-[#161616]">
                 <Icon icon="solar:arrow-to-top-left-bold" class="text-green-600 size-6" />
               </div>
-              <span class="font-semibold text-xl text-green-600">{{ TPNWC(String(calculateByType(transactions, "Income"))) }} تومان</span>
+              <span class="font-semibold lg:text-xl text-green-600">{{ TPNWC(String(calculateByType(transactions, "Income"))) }} تومان</span>
             </div>
             <div class="flex items-center gap-x-1">
               <div class="rounded-2xl p-1.5 bg-[#161616]">
                 <Icon icon="solar:arrow-to-down-right-linear" class="text-red-600 size-6" />
               </div>
-              <span class="font-semibold text-xl text-red-600">{{ TPNWC(String(calculateByType(transactions, "Expense"))) }} تومان</span>
+              <span class="font-semibold lg:text-xl text-red-600">{{ TPNWC(String(calculateByType(transactions, "Expense"))) }} تومان</span>
             </div>
           </div>
         </div>

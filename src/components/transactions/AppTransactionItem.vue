@@ -49,7 +49,7 @@ function onRemoveTransaction(item: string) {
       </div>
       <div class="flex flex-col items-center">
         <span
-          class="text-xl font-semibold"
+          class="lg:text-xl font-semibold"
           :class="transaction.type === 'Income' ? 'text-green-600' : 'text-red-600'"
         >
           {{ transaction.type === 'Income' ? '+' : '-' }} {{ TPNWC(transaction.amount) }} ت
