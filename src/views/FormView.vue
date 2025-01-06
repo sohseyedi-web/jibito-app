@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { LoadingMode } from '../types/commonTypes'
 import { Icon } from '@iconify/vue'
-import { computed, provide, ref, shallowRef } from 'vue'
+import { computed, provide, ref, shallowRef, watch } from 'vue'
+import DatePicker from 'vue3-persian-datetime-picker'
 import { useRouter } from 'vue-router'
 import AppButton from '../components/base/AppButton.vue'
 import AppForm from '../components/base/AppForm.vue'
@@ -27,6 +28,7 @@ const isLoading = ref<LoadingMode>('INITIAL')
 const isSubmitted = shallowRef<boolean>(false)
 const router = useRouter()
 const isOpen = shallowRef<boolean>(false)
+const isActive = shallowRef<boolean>(false)
 
 const onOpen = () => isOpen.value = !isOpen.value
 
@@ -69,6 +71,15 @@ async function onSubmit() {
   }
 }
 provide('isSubmitted', isSubmitted)
+
+watch(isActive, (newVal) => {
+  if (newVal === true) {
+    document.body.style.overflow = 'hidden'
+  }
+  else {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
 <template>
@@ -126,6 +137,7 @@ provide('isSubmitted', isSubmitted)
     >
       <div v-if="isOpen" class="w-full space-y-5">
         <AppInput
+          id="date"
           v-model="values.date"
           :error="errors.date"
           type="text"
@@ -133,6 +145,8 @@ provide('isSubmitted', isSubmitted)
           icon="solar:calendar-broken"
           name="date"
         />
+        <DatePicker v-model="values.date" element="date" class="text-[#161616]" color="#161616" format="jYYYY/jMM/jDD" />
+
         <AppInput
           v-model="values.description"
           :error="errors.description"
@@ -143,6 +157,7 @@ provide('isSubmitted', isSubmitted)
         />
       </div>
     </Transition>
-    <AppButton title="ثبت اطلاعات" type="submit" :loading="isLoading" class="bg-[#a3e632]" />
+    <!-- <BottomSheet :is-active="isActive" :on-close="onActive" /> -->
+    <AppButton title="ثبت اطلاعات" type="submit" :loading="isLoading" class="bg-gradient-to-r from-[#ff3939] to-[#ff212d]" />
   </AppForm>
 </template>
