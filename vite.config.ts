@@ -8,5 +8,6 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src'),
     },
+    mainFields: ['browser', 'module', 'main', 'jsnext:main', 'jsnext'],
   },
 })
