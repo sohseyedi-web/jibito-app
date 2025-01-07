@@ -12,7 +12,6 @@ const { getTransactions } = useTransactionStore()
 
 const transactions = computed(() => getTransactions())
 const balance = computed(() => calculateBalance(transactions.value))
-
 </script>
 
 <template>
