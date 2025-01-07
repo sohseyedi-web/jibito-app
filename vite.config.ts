@@ -1,13 +1,27 @@
-import { resolve } from 'node:path'
-import vue from '@vitejs/plugin-vue'
-import { defineConfig } from 'vite'
+import { resolve } from "node:path";
+import vue from "@vitejs/plugin-vue";
+import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
+import fs from "fs";
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    VitePWA({
+      registerType: "autoUpdate",
+      manifest: JSON.parse(fs.readFileSync("public/manifest.json", "utf-8")),
+      devOptions: {
+        enabled: true,
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,vue,ts,css,html,png,svg,ico}"],
+      },
+    }),
+  ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
+      "@": resolve(__dirname, "./src"),
     },
-    mainFields: ['browser', 'module', 'main', 'jsnext:main', 'jsnext'],
+    mainFields: ["browser", "module", "main", "jsnext:main", "jsnext"],
   },
-})
+});
