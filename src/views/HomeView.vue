@@ -12,6 +12,7 @@ const { getTransactions } = useTransactionStore()
 
 const transactions = computed(() => getTransactions())
 const balance = computed(() => calculateBalance(transactions.value))
+
 </script>
 
 <template>
@@ -25,7 +26,7 @@ const balance = computed(() => calculateBalance(transactions.value))
     <AmountForm v-if="balance === 0" />
     <main v-else>
       <HomeHeader />
-      <div class="h-[90svh] overflow-y-auto pb-2">
+      <div class="h-[80svh] overflow-y-auto pb-2 relative">
         <div class="bg-black rounded-2xl p-4 text-white">
           <div class="flex items-center justify-between text-white">
             <h4>موجودی</h4>
@@ -56,7 +57,7 @@ const balance = computed(() => calculateBalance(transactions.value))
         </p>
         <AppTransactionsCard />
         <router-link to="/transaction">
-          <div class="absolute bottom-5 size-9 flex items-center justify-center rounded-2xl z-[1] right-4 bg-gradient-to-r from-[#ff3939] to-[#ff212d] cursor-pointer">
+          <div class="fixed bottom-5 size-9 flex items-center justify-center rounded-2xl z-[1]  -translate-x-1 bg-gradient-to-r from-[#ff3939] to-[#ff212d] cursor-pointer">
             <Icon icon="mdi:add" class="size-7 text-black" />
           </div>
         </router-link>

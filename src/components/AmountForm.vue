@@ -52,8 +52,9 @@ provide('isSubmitted', isSubmitted)
 </script>
 
 <template>
+  <img src="@/assets/jibito-logo.png" class="size-16 absolute rounded-2xl top-2 left-1/2 -translate-x-1/2" alt="jibito">
   <AppForm class="text-white space-y-3 lg:w-[75%] w-[95%] mx-auto flex items-center justify-center h-screen" @submit="onSubmit">
-    <h2 class="text-xl font-semibold">
+    <h2 class="lg:text-xl text-lg font-semibold">
       افزایش موجودی
     </h2>
     <AppInput

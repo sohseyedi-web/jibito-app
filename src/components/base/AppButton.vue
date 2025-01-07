@@ -13,7 +13,7 @@ const { width = '100%' } = defineProps<{
 <template>
   <button
     :type
-    class="text-[#161616] font-semibold text-lg w-full h-[55px] rounded-2xl flex items-center justify-center cursor-pointer border-none"
+    class="text-[#161616] font-semibold lg:text-lg w-full lg:h-[55px] h-[50px] rounded-2xl flex items-center justify-center cursor-pointer border-none"
     :style="{ width }"
   >
     <Loading v-if="loading === 'LOADING'" />
